@@ -1,0 +1,6 @@
+LIBRARY	"BkMinimizeOnCloseCpp"
+EXPORTS
+	BKC_OnStart
+	BKC_OnExit
+	BKC_OnPlugInInfo
+	BKC_OnCommand
