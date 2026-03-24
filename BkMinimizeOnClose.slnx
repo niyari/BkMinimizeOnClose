@@ -1,0 +1,10 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="BkMinimizeOnCloseCpp/BkMinimizeOnCloseCpp.vcxproj" Id="538d8126-1487-433e-91f7-fbfbc9f39036" />
+  <Project Path="BkMinimizeOnClose\BkMinimizeOnClose.csproj">
+    <Platform Project="x86" />
+    <Build Project="false" />
+  </Project>
+</Solution>
