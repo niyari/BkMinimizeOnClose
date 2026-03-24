@@ -1,0 +1,42 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Build Specific Project
+      run: |
+        msbuild BkMinimizeOnClose.slnx`
+          /p:Configuration=Release `
+          /p:Platform=Win32 `
+          /t:BkMinimizeOnCloseCpp
+
+    - name: Prepare Artifacts
+      run: |
+        mkdir dist
+        copy "BkMinimizeOnCloseCpp\Release\bin\BkMinimizeOnCloseCpp.dll" "dist\"
+        copy "LICENSE" "dist\"
+
+    - name: Archive Release
+      shell: pwsh
+      run: |
+        Compress-Archive -Path dist/* -DestinationPath release_assets.zip
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: release_assets.zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
