@@ -4,3 +4,4 @@ EXPORTS
 	BKC_OnExit
 	BKC_OnPlugInInfo
 	BKC_OnCommand
+	BKC_OnPlugInSetup

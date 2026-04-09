@@ -134,7 +134,7 @@ public static unsafe class PluginEntry
 
         SetFixedString(info->szPlugInName, "BkMinimizeOnClose", 80);
         SetFixedString(info->szVendor, "Sou Niyari", 80);
-        SetFixedString(info->szVersion, "1.5.0.0", 80);
+        SetFixedString(info->szVersion, "1.6.0.0", 80);
         SetFixedString(info->szDescription, "メインウインドウの×ボタンを最小化に振り替えます。", 256);
 
         return 0;

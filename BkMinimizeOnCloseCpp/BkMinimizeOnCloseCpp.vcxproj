@@ -143,6 +143,7 @@
     <ClInclude Include="BeckyApi.h" />
     <ClInclude Include="BkCommon.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="version.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Plugin.def" />

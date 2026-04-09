@@ -8,7 +8,7 @@
 // Generated from the TEXTINCLUDE 2 resource.
 //
 #include "winres.h"
-
+#include "version.h"
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -33,7 +33,7 @@ END
 2 TEXTINCLUDE 
 BEGIN
     "#include ""winres.h""\r\n"
-    "\0"
+    "#include ""version.h""\0"
 END
 
 3 TEXTINCLUDE 
@@ -51,8 +51,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,5,0,0
- PRODUCTVERSION 1,5,0,0
+ FILEVERSION VER_MAJOR, VER_MINOR, VER_PATCH, VER_BUILD
+ PRODUCTVERSION VER_MAJOR, VER_MINOR, VER_PATCH, VER_BUILD
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -67,25 +67,25 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "CompanyName", "Sou Niyari"
+            VALUE "CompanyName", SZ_VENDOR_NAME
             VALUE "FileDescription", "Redirects the main window's Close button to minimize it (C++ version)."
-            VALUE "FileVersion", "1.5.0.0"
+            VALUE "FileVersion", SZ_PIN_VERSION
             VALUE "InternalName", "BkMinimizeOnCloseCpp.dll"
-            VALUE "LegalCopyright", "Copyright (C) 2026"
+            VALUE "LegalCopyright", SZ_COPYRIGHT
             VALUE "OriginalFilename", "BkMinimizeOnCloseCpp.dll"
             VALUE "ProductName", "BkMinimizeOnCloseCpp"
-            VALUE "ProductVersion", "1.5.0.0"
+            VALUE "ProductVersion", SZ_PIN_VERSION
         END
         BLOCK "041104b0"
         BEGIN
-            VALUE "CompanyName", "Sou Niyari"
+            VALUE "CompanyName", SZ_VENDOR_NAME
             VALUE "FileDescription", "メインウインドウの×ボタンを最小化に振り替えます(C++版)。"
-            VALUE "FileVersion", "1.5.0.0"
+            VALUE "FileVersion", SZ_PIN_VERSION
             VALUE "InternalName", "BkMinimizeOnCloseCpp.dll"
-            VALUE "LegalCopyright", "Copyright (C) 2026"
+            VALUE "LegalCopyright", SZ_COPYRIGHT
             VALUE "OriginalFilename", "BkMinimizeOnCloseCpp.dll"
             VALUE "ProductName", "BkMinimizeOnCloseCpp"
-            VALUE "ProductVersion", "1.5.0.0"
+            VALUE "ProductVersion", SZ_PIN_VERSION
         END
     END
     BLOCK "VarFileInfo"
@@ -97,15 +97,65 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_DIALOG1, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 250
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 68
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DIALOG1 DIALOGEX 0, 0, 255, 75
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "説明\r\n説明\r\n説明",IDC_PIN_DESCRIPTION,7,7,243,28
+    EDITTEXT        IDC_DIAG_SITEURL,7,35,243,15,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "バージョン表記など",IDC_PIN_VENDOR,7,55,190,9
+    DEFPUSHBUTTON   "OK",IDOK,200,54,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_DIALOG1 AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
 // String Table
 //
 
 STRINGTABLE
 BEGIN
     IDS_PIN_NAME            "BkMinimizeOnClose (C++)"
-    IDS_PIN_VENDOR          "Sou Niyari"
+    IDS_PIN_VENDOR          SZ_VENDOR_NAME
     IDS_PIN_DESCRIPTION     "メインウインドウの×ボタンを最小化に振り替えます(C++版)。"
-    IDS_PIN_VERSION         "1.5.0.0"
+    IDS_PIN_VERSION         SZ_PIN_VERSION
+    IDS_PIN_COUNT           "起動時からのクリック回数"
+    IDS_DIAG_SITEURL        SZ_SITEURL
+    IDS_DIAG_BTN_OK         "OK"
 END
 
 #endif    // 日本語 (日本) resources
@@ -127,9 +177,12 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 STRINGTABLE
 BEGIN
     IDS_PIN_NAME            "BkMinimizeOnClose (C++)"
-    IDS_PIN_VENDOR          "Sou Niyari"
-    IDS_PIN_DESCRIPTION     "Redirects the main window's Close button to minimize it (C++ version).1"
-    IDS_PIN_VERSION         "1.5.0.0"
+    IDS_PIN_VENDOR          SZ_VENDOR_NAME
+    IDS_PIN_DESCRIPTION     "Redirects the main window's Close button to minimize it (C++ version)."
+    IDS_PIN_VERSION         SZ_PIN_VERSION
+    IDS_PIN_COUNT           "Clicks since startup"
+    IDS_DIAG_SITEURL        SZ_SITEURL
+    IDS_DIAG_BTN_OK         "OK"
 END
 
 #endif    // 英語 (米国) resources
