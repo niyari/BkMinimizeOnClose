@@ -1,42 +1,67 @@
 name: Build and Release
 
 on:
+  workflow_dispatch:
   push:
     tags:
       - 'v*'
+  pull_request:
+    branches: [ "master" ]
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2025-vs2026
+    # イメージ側で v145に対応した場合は windows-latest へ変更すること。
+    permissions:
+      contents: write
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v2
+      uses: microsoft/setup-msbuild@v3
 
     - name: Build Specific Project
       run: |
-        msbuild BkMinimizeOnClose.slnx`
-          /p:Configuration=Release `
-          /p:Platform=Win32 `
-          /t:BkMinimizeOnCloseCpp
+        msbuild BkMinimizeOnClose.slnx `
+          -property:Configuration=Release `
+          -property:Platform=x86 `
+          -target:BkMinimizeOnCloseCpp `
+    #     -property:PlatformToolset=v143
+    # v143スイッチ は 2026-03 時点の windows-latest ビルド環境用である。v145 が対応した場合は変更または削除すること。
 
     - name: Prepare Artifacts
+      if: startsWith(github.ref, 'refs/tags/')
       run: |
         mkdir dist
         copy "BkMinimizeOnCloseCpp\Release\bin\BkMinimizeOnCloseCpp.dll" "dist\"
+        copy "README.md" "dist\"
         copy "LICENSE" "dist\"
 
-    - name: Archive Release
+    - name: Archive and Set Name
+      if: startsWith(github.ref, 'refs/tags/')
+      id: archive
       shell: pwsh
       run: |
-        Compress-Archive -Path dist/* -DestinationPath release_assets.zip
+        $rawTag = "${{ github.ref_name }}"
+        $safeTag = $rawTag -replace '[\\/:*?"<>|]', '_'
+        
+        $repoName = "${{ github.event.repository.name }}"
+        $fileName = "${repoName}-${safeTag}.zip"
+        
+        Compress-Archive -Path dist/* -DestinationPath $fileName
+        
+        echo "zip_name=$fileName" >> $env:GITHUB_OUTPUT
+        echo "tag_name=$rawTag" >> $env:GITHUB_OUTPUT
 
     - name: Create Release
+      if: startsWith(github.ref, 'refs/tags/')
       uses: softprops/action-gh-release@v2
       with:
-        files: release_assets.zip
+        files: ${{ steps.archive.outputs.zip_name }}
+        tag_name: ${{ steps.archive.outputs.tag_name }}
+        name: "Release ${{ steps.archive.outputs.tag_name }}"
+        generate_release_notes: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
